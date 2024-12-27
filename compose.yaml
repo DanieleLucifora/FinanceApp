@@ -1,0 +1,94 @@
+services:
+  mysqldb:
+    image: mysql:8.0
+    container_name: database
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: finance_app
+      MYSQL_USER: server
+      MYSQL_PASSWORD: 1234
+    volumes:
+      - db-data:/var/lib/mysql #volume condiviso
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql #script di inizializzazione
+    ports:
+      - 3307:3306 #porta host:porta container
+
+  server:
+    build:
+      context: .
+      dockerfile: gRPC/Dockerfile.server
+    environment:
+      - MYSQL_HOST=mysqldb
+      - MYSQL_PORT=3306
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=finance_app
+      - MYSQL_USER=server
+      - MYSQL_PASSWORD=1234
+    ports:
+      - "50051:50051"
+    depends_on:
+      - mysqldb
+    restart: always
+
+  datacollector:
+    build:
+      context: .
+      dockerfile: DataCollector/Dockerfile.data_collector
+    environment:
+      - MYSQL_HOST=mysqldb
+      - MYSQL_PORT=3306
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=finance_app
+      - MYSQL_USER=server
+      - MYSQL_PASSWORD=1234
+    depends_on:
+      - mysqldb
+      - kafka-broker
+    restart: always
+
+  alertsystem:
+    build:
+      context: .
+      dockerfile: AlertSystem/Dockerfile.alert_system
+    environment:
+      - MYSQL_HOST=mysqldb
+      - MYSQL_PORT=3306
+      - MYSQL_ROOT_PASSWORD=1234
+      - MYSQL_DATABASE=finance_app
+      - MYSQL_USER=server
+      - MYSQL_PASSWORD=1234
+    depends_on:
+      - mysqldb
+      - kafka-broker
+    restart: always
+  
+  alertnotifiersystem:
+    build:
+      context: .
+      dockerfile: AlertNotifier/Dockerfile.alert_notifier_system
+    restart: always
+    depends_on:
+      - kafka-broker
+
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    container_name: zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka-broker:
+    image: confluentinc/cp-kafka:latest
+    hostname: kafka-broker
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka-broker:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
+
+volumes:
+  db-data:

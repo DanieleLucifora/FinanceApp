@@ -1,0 +1,12 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+COPY AlertSystem/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY AlertSystem/alert_system.py .
+
+ENV PYTHONUNBUFFERED=1
+
+CMD ["python", "alert_system.py"]

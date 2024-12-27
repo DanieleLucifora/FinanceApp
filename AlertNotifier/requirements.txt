@@ -1,0 +1,6 @@
+grpcio
+grpcio-tools
+mysql-connector-python
+yfinance
+cachetools
+confluent-kafka
