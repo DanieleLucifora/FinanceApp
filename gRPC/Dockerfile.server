@@ -1,0 +1,16 @@
+FROM python:3.10-slim
+
+WORKDIR /app
+
+COPY gRPC/requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY gRPC/server.py .
+COPY gRPC/finance_app_pb2.py .
+COPY gRPC/finance_app_pb2_grpc.py .
+COPY CQRS/command_service.py .
+COPY CQRS/query_service.py .
+
+ENV PYTHONUNBUFFERED=1
+
+CMD ["python", "server.py"]

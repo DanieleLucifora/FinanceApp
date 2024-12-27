@@ -1,0 +1,38 @@
+// serve a connettere server e client tramite gRPC
+syntax = "proto3";
+
+service ServizioUtente{
+    rpc RegistraUtente (DatiUtente) returns (Conferma) {}
+    rpc AggiornaUtente (DatiUtente) returns (Conferma) {}
+    rpc CancellaUtente (Email) returns (Conferma) {}
+}
+
+service ServizioStock{
+    rpc RecuperaValore (Email) returns (Valore) {}
+    rpc CalcolaMediaValori (DatiMediaValori) returns (Valore) {}
+}
+
+message DatiUtente{
+    string email = 1;
+    string ticker = 2;
+    float high_value = 3;
+    float low_value = 4;
+}
+
+message Email{
+    string email = 1;
+}
+
+message Conferma{
+    bool conferma = 1;
+    string messaggio = 2;
+}
+
+message Valore{
+    float valore = 1;
+}
+
+message DatiMediaValori{
+    string email = 1;
+    int32 numeroDati = 2;
+}
