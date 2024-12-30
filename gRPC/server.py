@@ -3,6 +3,9 @@ from command_service import CommandService
 import finance_app_pb2_grpc
 from concurrent import futures
 from query_service import QueryService
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../CQRS')))
 
 class ComandoRegistraUtente:
     def __init__(self, email, ticker, high_value, low_value):

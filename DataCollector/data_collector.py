@@ -2,6 +2,9 @@ import time
 import mysql.connector
 from confluent_kafka import Producer
 import yfinance as yf
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../CircuitBreaker')))
 
 from circuit_breaker import CircuitBreaker, CircuitBreakerOpenException
                 
