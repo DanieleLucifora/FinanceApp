@@ -1,0 +1,73 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysqldb
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: mysqldb
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysqldb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysqldb
+  template:
+    metadata:
+      labels:
+        app: mysqldb
+    spec:
+      containers:
+        - name: mysqldb
+          image: mysql:8.0
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: "1234"
+            - name: MYSQL_DATABASE
+              value: finance_app
+            - name: MYSQL_USER
+              value: server
+            - name: MYSQL_PASSWORD
+              value: "1234"
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: db-data
+              mountPath: /var/lib/mysql
+            - name: init-sql
+              mountPath: /docker-entrypoint-initdb.d
+      volumes:
+        - name: db-data
+          emptyDir: {}
+        - name: init-sql
+          configMap:
+            name: init-sql-config
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: init-sql-config
+data:
+  init.sql: |
+    CREATE TABLE utenti (
+        email VARCHAR(100) NOT NULL PRIMARY KEY,
+        ticker VARCHAR(5) NOT NULL,
+        high_value FLOAT(10),
+        low_value FLOAT(10)
+    );
+
+    CREATE TABLE data (
+        email VARCHAR(100) NOT NULL,
+        ticker VARCHAR(5) NOT NULL,
+        valore FLOAT(10),
+        timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (email) REFERENCES utenti(email)
+    );

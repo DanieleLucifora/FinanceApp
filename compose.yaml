@@ -14,6 +14,7 @@ services:
       - 3307:3306 #porta host:porta container
 
   server:
+    image: server-app:v1
     build:
       context: .
       dockerfile: gRPC/Dockerfile.server
@@ -31,6 +32,7 @@ services:
     restart: always
 
   datacollector:
+    image: datacollector-app:v1
     build:
       context: .
       dockerfile: DataCollector/Dockerfile.data_collector
@@ -47,6 +49,7 @@ services:
     restart: always
 
   alertsystem:
+    image: alertsystem-app:v1
     build:
       context: .
       dockerfile: AlertSystem/Dockerfile.alert_system
@@ -63,6 +66,7 @@ services:
     restart: always
   
   alertnotifiersystem:
+    image: alertnotifier-app:v1
     build:
       context: .
       dockerfile: AlertNotifier/Dockerfile.alert_notifier_system

@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../CQRS')))
+
 import grpc
 from command_service import CommandService
 import finance_app_pb2_grpc

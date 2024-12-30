@@ -1,0 +1,48 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: datacollector
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+  selector:
+    app: datacollector
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: datacollector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: datacollector
+  template:
+    metadata:
+      labels:
+        app: datacollector
+    spec:
+      containers:
+        - name: datacollector
+          image: ${IMAGE_REPO}/datacollector-app:latest
+          env:
+            - name: MYSQL_HOST
+              value: mysqldb
+            - name: MYSQL_PORT
+              value: "3306"
+            - name: MYSQL_ROOT_PASSWORD
+              value: "1234"
+            - name: MYSQL_DATABASE
+              value: finance_app
+            - name: MYSQL_USER
+              value: server
+            - name: MYSQL_PASSWORD
+              value: "1234"
+            - name: KAFKA_BROKER
+              value: kafka-broker:9092
+          ports:
+            - containerPort: 8080
+      restartPolicy: Always

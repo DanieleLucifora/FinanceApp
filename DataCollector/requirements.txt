@@ -1,4 +1,4 @@
-grpcio
+grpcio==1.68.1
 grpcio-tools
 mysql-connector-python
 yfinance
