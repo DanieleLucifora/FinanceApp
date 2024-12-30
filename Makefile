@@ -34,6 +34,7 @@ prepare:
 	@minikube image load ${IMAGE_REPO}/alertnotifier-app
 	@minikube image load ${IMAGE_REPO}/alertsystem-app
 	@echo "Applicazione manifests Kubernetes in corso..."
+	@envsubst < manifests/prometheus.yaml | kubectl apply -f -
 	@envsubst < manifests/mysqldb.yaml | kubectl apply -f -
 	@envsubst < manifests/zookeeper.yaml | kubectl apply -f -
 	@envsubst < manifests/kafka_broker.yaml | kubectl apply -f -

@@ -33,9 +33,11 @@ Prerequisiti:
 9. Digitare `make prepare` per caricare le immagini Docker nel Minikube ed applicare i manifest
 10. Digitare `kubectl get pods` per verificare lo stato dei pod ed attendere che tutti i pod siano stati avviati
 11. Digitare `SERVER_POD=$(kubectl get pods --selector=app=server -o jsonpath='{.items[0].metadata.name}')` per ottenere l'ID del Server Pod
-12. Digitare `kubectl port-forward pod/$SERVER_POD 50051:50051` per effettuare il port forwarding per il server gRPC
-13. Aprire un'altro terminale e spostarsi all'interno della directory gRPC e digitare `python client.py`
-14. Eseguire le istruzioni visualizzate nel terminale
+12. Digitare `kubectl port-forward pod/$SERVER_POD 50051:50051` per effettuare il port forwarding per il server gRPC 
+13. Aprire un'altro terminale e digitare `PROMETHEUS_POD=$(kubectl get pods --selector=app=prometheus -o jsonpath='{.items[0].metadata.name}')` per ottenere l'ID del Server Pod
+14. Digitare `kubectl port-forward pod/$PROMETHEUS_POD 9090:9090` per effettuare il port forwarding per il server gRPC
+15. Aprire un'altro terminale e spostarsi all'interno della directory gRPC e digitare `python client.py`
+16. Eseguire le istruzioni visualizzate nel terminale
 
 
 Per eliminare Minikube e le immagini Docker eseguire i seguenti comandi in sequenza:
