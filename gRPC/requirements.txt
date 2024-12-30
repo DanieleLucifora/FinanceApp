@@ -4,3 +4,4 @@ mysql-connector-python
 yfinance
 cachetools
 confluent-kafka
+prometheus-client
