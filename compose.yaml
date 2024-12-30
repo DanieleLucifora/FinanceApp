@@ -50,15 +50,7 @@ services:
     build:
       context: .
       dockerfile: AlertSystem/Dockerfile.alert_system
-    environment:
-      - MYSQL_HOST=mysqldb
-      - MYSQL_PORT=3306
-      - MYSQL_ROOT_PASSWORD=1234
-      - MYSQL_DATABASE=finance_app
-      - MYSQL_USER=server
-      - MYSQL_PASSWORD=1234
     depends_on:
-      - mysqldb
       - kafka-broker
     restart: always
   
@@ -90,5 +82,16 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
       KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./prometheus:/etc/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+    ports:
+      - 9090:9090
+    restart: always
+
 volumes:
   db-data:
+  prometheus_data:
