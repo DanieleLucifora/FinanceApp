@@ -40,5 +40,4 @@ prepare:
 	@envsubst < manifests/kafka_broker.yaml | kubectl apply -f -
 	@envsubst < manifests/server.yaml | kubectl apply -f -
 	@envsubst < manifests/data_collector.yaml | kubectl apply -f -
-	@envsubst < manifests/alert_system.yaml | kubectl apply -f -
-	@envsubst < manifests/alert_notifier.yaml | kubectl apply -f -	
+	@envsubst < manifests/alert.yaml | kubectl apply -f -	
