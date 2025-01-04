@@ -26,7 +26,7 @@ Il sistema di notifica asincrona si basa su Apache Kafka. Tale sistema ascolta c
 ### Prerequisiti Windows
 Per avviare il makefile su Windows è stato scelto di utilizzare `GnuWin32`. Per installarlo dal terminale:
 - Digitare `winget install GnuWin32.Make`
-- Digitare `winget install GnuWIn32.GetText` <!-- Necessario per envsubst -->
+- Digitare `winget install GnuWin32.GetText` <!-- Necessario per envsubst -->
 - Aggiungere `C:\Program Files (x86)\GnuWin32\bin` come variabile di ambiente al PATH di sistema. 
 
 ### Passi introduttivi
@@ -46,7 +46,7 @@ Per avviare il makefile su Windows è stato scelto di utilizzare `GnuWin32`. Per
 10. Attendere che i pod siano in stato _running_, per controllare è possibile utilizzare il comando `kubectl get pods`. Questo passaggio può richiedere qualche minuto. 
 
 ### Port Forwarding
-11. Tramite `kubectl get pods` ottenere il nome del pod server e del pod prometheus
+11. Tramite `kubectl get pods` ottenere il name del pod server e del pod prometheus
 12. Digitare `kubectl port-forward pod/nome_server 50051:50051` sostituendo `nome_server` con il nome ottenuto.
 13. Aprire un'altra finestra di terminale e digitare `kubectl port-forward pod/nome_prometheus 9090:9090` sostituendo `nome_prometheus` con il nome ottenuto.
 14. Aprire un'altra finestra di terminale, spostarsi all'interno della directory gRPC e digitare `python client.py`
