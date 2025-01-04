@@ -3,18 +3,11 @@
 - Daniele Lucifora
 
 ## Descrizione
-Il progetto riguarda lo sviluppo di un'applicazione di gestione delle informazioni finanziarie, basata su un'architettura a microservizi e comunicazione tramite gRPC. 
-L'applicazione consente la registrazione e gestione degli utenti, l'aggiornamento dei ticker finanziari e la raccolta di dati relativi ai valori azionari. 
-Utilizzando un database MySQL, i microservizi sono separati in due categorie principali:
-- gestione degli utenti 
-- gestione delle informazioni sui ticker azionari
-
-La comunicazione tra client e server avviene tramite chiamate gRPC, sfruttando i protocolli di serializzazione Protobuf.
-Inoltre, il progetto implementa un sistema di cache per garantire l'unicità delle operazioni (at-most-once), evitando chiamate duplicate per le stesse operazioni.
-L'applicazione supporta operazioni di registrazione utente, aggiornamento dei ticker, eliminazione degli utenti e recupero dei valori storici e media degli ultimi valori selezionati.
-Per la gestione del database viene utilizzato il pattern CQRS(Command and Query Responsability Segregation), che separa i comandi dalle query.
-È stata inoltre implementata la notifica asincrona agli utenti, i quali riceveranno una email ogni volta che il loro ticker supererà le soglie predefinite high value e low value.
-Il sistema di notifica asincrona si basa su Apache Kafka. Tale sistema ascolta continuamente uno specifico topic in un broker Kafka e non appena viene pubblicato un nuovo messaggio sul topic, il sistema lo recupera ed elabora. Se il messaggio contiene informazioni come il ticker e l'email, il sistema invia una notifica via email.
+Il progetto riguarda lo sviluppo di un'applicazione per la gestione delle informazioni finanziarie che utilizza un'**architettura a microservizi** e la comunicazione tramite **gRPC**. L'applicazione permette agli utenti di registrarsi e gestire i propri dati, aggiornare i ticker finanziari e raccogliere informazioni sui valori azionari. 
+L'applicazione usa un database **MySQL** e i microservizi sono divisi in due categorie principali: una per la gestione degli utenti e una per la gestione delle informazioni sui ticker azionari. La comunicazione tra client e server avviene tramite chiamate gRPC, utilizzando i protocolli di serializzazione Protobuf.
+L'applicazione offre un sistema di notifiche tramite **Kafka**, che consente agli utenti di impostare soglie minime e massime per i ticker e ricevere notifiche via email al raggiungimento di tali soglie. Inoltre, viene implementato il pattern **CQRS** (Command Query Responsibility Segregation) per gestire in modo indipendente le operazioni di lettura e scrittura sul Server gRPC. 
+I microservizi vengono distribuiti su una piattaforma **Kubernetes** utilizzando **Minikube** e viene integrato **Prometheus** per il monitoraggio del Server gRPC e del Data Collector.
+Il progetto implementa anche un sistema di cache per garantire l'unicità delle operazioni (at-most-once), evitando chiamate duplicate per le stesse operazioni. L'applicazione supporta operazioni di registrazione utente, aggiornamento dei ticker, eliminazione degli utenti e recupero dei valori storici e media degli ultimi valori selezionati.
 
 ## Build & Deploy
 ### Prerequisiti
