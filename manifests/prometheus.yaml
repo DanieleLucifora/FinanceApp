@@ -4,8 +4,18 @@ metadata:
   name: prometheus
 spec:
   ports:
-    - port: 9090
+    - protocol: TCP
+      port: 9090
       targetPort: 9090
+      name: web
+    - protocol: TCP
+      port: 9100
+      targetPort: 9100
+      name: datacollector
+    - protocol: TCP
+      port: 9200
+      targetPort: 9200
+      name: server
   selector:
     app: prometheus
 

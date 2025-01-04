@@ -6,6 +6,10 @@ metadata:
 spec:
   ports:
     - port: 50051
+      name: grpc
+    - port: 9200
+      targetPort: 9200
+      name: prometheus
   selector:
     app: server
 
