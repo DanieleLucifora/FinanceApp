@@ -1,4 +1,4 @@
-# Homework 3 - Distributed Systems and Big Data - UNICT - AA 2024-2025
+# Finance Application - Distributed Systems and Big Data - UNICT - AA 2024-2025
 - Fernando Riccioli
 - Daniele Lucifora
 
